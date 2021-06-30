@@ -1,0 +1,89 @@
+<div class="item">
+    <div>Caterory</div>
+    <div>
+        <select name="category_id" >
+            {% for caterory in categories %}
+                <option value="{{category.id}}" {% if product.category_id == category_id %} selected {%endif%} >
+                    {{category.name}}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="item">
+    <div>Name</div>
+    <div>
+        <input 
+            type="text" 
+            name="name"
+            placeholder="AD title" 
+            value="{{ product.name }}"
+        >
+    </div>
+</div>
+
+<div class="item">
+    <div>Description</div>
+   <textarea name="description"  cols="30" rows="10">
+       {{product.description}}
+   </textarea>
+</div>
+
+<div class="item">
+    <div>Price</div>
+    <div>
+        <input 
+            type="text" 
+            name="price"
+            placeholder="Product price" 
+            value="{{ product.price }}"
+        >
+    </div>
+
+    {% if product.old_price %}
+        <input type="hidden" name="old_price" value="{{product.old_price}}">
+    {% endif %}
+</div>
+
+<div class="item">
+    <div>Quantity</div>
+    <div>
+        <input 
+            type="number" 
+            name="quantity"
+            placeholder="Product available" 
+            value="{{ product.quantity }}"
+        >
+    </div>
+</div>
+
+{% if product.status %}
+<div class="item">
+    <div>Available</div>
+    <div>
+        <span>
+            <input 
+            type="radio" 
+            name="status"
+            value="1"
+            {% if product.status == "1" %}
+                checked
+            {% endif %}
+            > Yes
+        </span>
+
+        <span>
+            <input 
+            type="radio" 
+            name="status"
+            value="0"
+            {% if product.status == "0" %}
+            checked
+            {% endif %}
+            > No
+        </span>
+    </div>
+</div>
+{% endif %}
+
