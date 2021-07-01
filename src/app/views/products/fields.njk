@@ -2,7 +2,7 @@
     <div>Caterory</div>
     <div>
         <select name="category_id" >
-            {% for caterory in categories %}
+            {% for category in categories %}
                 <option value="{{category.id}}" {% if product.category_id == category_id %} selected {%endif%} >
                     {{category.name}}
                 </option>
