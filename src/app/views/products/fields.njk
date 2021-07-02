@@ -25,9 +25,7 @@
 
 <div class="item">
     <div>Description</div>
-   <textarea name="description"  cols="30" rows="10">
-       {{product.description}}
-   </textarea>
+   <textarea name="description"  cols="30" rows="10">{{product.description}}</textarea>
 </div>
 
 <div class="item">
@@ -38,6 +36,7 @@
             name="price"
             placeholder="Product price" 
             value="{{ product.price }}"
+            onkeydown="Mask.apply(this, 'formatBRL')"
         >
     </div>
 
