@@ -28,6 +28,16 @@
    <textarea name="description"  cols="30" rows="10">{{product.description}}</textarea>
 </div>
 
+<div class="item">
+    <div>Photos</div>
+    <div>
+        <div id="photos-upload">
+            <input id="photos-input" type="file" name="photos" multiple accept="image/*" onchange="PhotosUpload.handleFileInput(event)">
+            <p>Select maximum of 6 photos</p>
+        </div>
+        <div id="photos-preview"></div>
+    </div>
+</div>
 
 
 <div class="item">
