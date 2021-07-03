@@ -28,6 +28,8 @@
    <textarea name="description"  cols="30" rows="10">{{product.description}}</textarea>
 </div>
 
+
+
 <div class="item">
     <div>Price</div>
     <div>
@@ -57,7 +59,7 @@
     </div>
 </div>
 
-{% if product.status %}
+{% if  (product.status == "1") or (product.status == "0") %}
 <div class="item">
     <div>Available</div>
     <div>

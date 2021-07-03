@@ -1,4 +1,5 @@
 const { formatPrice } = require('../../lib/utils');
+const { put } = require('../../routes');
 const Category = require('../models/category'); 
 const Product = require('../models/product');
 
@@ -26,7 +27,7 @@ module.exports = {
         let result = await Product.create(req.body);
         const productId = result.rows[0].id;
          
-        return res.redirect(`/products/${productId}`)
+        return res.redirect(`/products/${productId}/edit`)
     },
 
     
@@ -43,5 +44,26 @@ module.exports = {
 
 
         return res.render('products/edit.njk', { product, categories})
+    },
+
+    async put(req, res) {
+        const keys = Object.keys(req.body)
+
+        for(key in keys) {
+            if(req.body[key] == "") {
+                return res.send("Please fill all the fields")
+            }
+        }
+
+        req.body.price = req.body.price.replace(/\D/g, "");
+
+        if(req.body.old_price != req.body.price) {
+            const oldProduct = await Product.find(req.body.id)
+            req.body.old_price = oldProduct.rows[0].price
+        }
+
+        await Product.update(req.body)
+
+        return res.redirect(`/products/${req.body.id}/edit`)
     }
 }
