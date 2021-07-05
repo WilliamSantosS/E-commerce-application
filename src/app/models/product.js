@@ -33,7 +33,6 @@ module.exports = {
     },
 
     find(id){
-         
         return db.query('SELECT * from products WHERE id= $1', [id])
     },
 
