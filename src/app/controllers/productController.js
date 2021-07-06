@@ -1,6 +1,7 @@
 const { formatPrice } = require('../../lib/utils');
 const Category = require('../models/category'); 
 const Product = require('../models/product');
+const File = require('../models/file');
 
 
 module.exports = {
@@ -18,8 +19,16 @@ module.exports = {
                 return res.send("Please fill all the fields")
             }
         }
+
+        if(req.files.length == 0){
+            return res.send("Plese insert at least one image")
+        }
+
         let result = await Product.create(req.body);
         const productId = result.rows[0].id;
+
+        const filesPromise = req.files.map(file => File.create({...file , product_id: productId}))
+        await Promise.all(filesPromise)
          
         return res.redirect(`/products/${productId}/edit`)
     },
@@ -33,10 +42,21 @@ module.exports = {
 
        product.old_price = formatPrice(product.old_price)
        product.price = formatPrice(product.price)
+
+       //get categories
         result = await Category.all()
         const categories = result.rows
 
-        return res.render('products/edit.njk', { product, categories})
+        //get images
+        result = await Product.files(product.id)
+        let files = result.rows
+        files = files.map(file => ({
+            ...files,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+        }))
+
+        console.log(files)
+        return res.render('products/edit.njk', { product, categories, files})
     },
 
     async put(req, res) {

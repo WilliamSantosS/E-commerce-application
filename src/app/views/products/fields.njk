@@ -35,7 +35,16 @@
             <input id="photos-input" type="file" name="photos" multiple accept="image/*" onchange="PhotosUpload.handleFileInput(event)">
             <p>Select maximum of 6 photos</p>
         </div>
-        <div id="photos-preview"></div>
+        <div id="photos-preview">
+            {% if files %}
+                {% for image in files %}
+                    <div class="photo" id="{{image.id}}">
+                        <img src="{{image.src}}" alt="{{image.name}}">
+                        <i class="material-icons" onclick="">close</i>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 </div>
 
