@@ -28,6 +28,7 @@ module.exports = {
         const productId = result.rows[0].id;
 
         const filesPromise = req.files.map(file => File.create({...file , product_id: productId}))
+        
         await Promise.all(filesPromise)
          
         return res.redirect(`/products/${productId}/edit`)
@@ -51,11 +52,10 @@ module.exports = {
         result = await Product.files(product.id)
         let files = result.rows
         files = files.map(file => ({
-            ...files,
+            ...file,
             src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
         }))
 
-        console.log(files)
         return res.render('products/edit.njk', { product, categories, files})
     },
 
@@ -63,9 +63,23 @@ module.exports = {
         const keys = Object.keys(req.body)
 
         for(key in keys) {
-            if(req.body[key] == "") {
+            if(req.body[key] == "" && key != removed_files) {
                 return res.send("Please fill all the fields")
             }
+        }
+        
+        if(req.files.length != 0) {
+            const newFilesPromise = req.files.map(file => File.create({...file, product_id: req.body.id}))
+            await Promise.all(newFilesPromise)
+        }
+ 
+        if(req.body.removed_files) {
+            const removedFiles = req.body.removed_files.split(',');
+            const lastItem = removedFiles.length - 1;
+            removedFiles.splice(lastItem, 1);
+
+            const removedFilesPromise = removedFiles.map(id => File.delete(id));
+            await Promise.all(removedFilesPromise)
         }
 
         req.body.price = req.body.price.replace(/\D/g, "");
