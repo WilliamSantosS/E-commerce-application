@@ -2,7 +2,6 @@ const { formatPrice, date } = require('../../lib/utils');
 const Category = require('../models/category'); 
 const Product = require('../models/product');
 const File = require('../models/file');
-const file = require('../models/file');
 
 
 module.exports = {
@@ -80,6 +79,8 @@ module.exports = {
             ...file,
             src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
         }))
+
+        console.log(files)
 
         return res.render('products/edit.njk', { product, categories, files})
     },
