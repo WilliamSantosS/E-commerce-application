@@ -172,6 +172,7 @@ form .item > div:nth-child(1) {
     margin-bottom: 8px;
 }
 
+/* form .item .input input, */
 form .item input[type="text"],
 form .item input[type="number"],
 form .item textarea,
@@ -520,4 +521,18 @@ form .item #photos-preview img {
     color: black;
     font-weight: bold;
 }
+
+/* USER REGISTER */
+
+/* .user-register.container.form {
+    max-width: 500px;
+
+}  */
+
+/* .form input[name="cep"]
+.form input[name="email"]
+.form input[name="password"]
+.form input[name="passwordConfirm"] {
+    max-width: 60%;
+} */
 

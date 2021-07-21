@@ -9,7 +9,7 @@ const server = express();
 //Midllewars
 //acessando a pasta que contem os arquivos staticos CSS
 server.use(express.urlencoded({ extended: true }))
-server.use(express.static('Public'))
+server.use(express.static('public'))
 server.use(methodOverride('_method'))
 server.use(routes)
 
