@@ -172,7 +172,7 @@ form .item > div:nth-child(1) {
     margin-bottom: 8px;
 }
 
-/* form .item .input input, */
+form .item .input input,
 form .item input[type="text"],
 form .item input[type="number"],
 form .item textarea,
@@ -536,3 +536,8 @@ form .item #photos-preview img {
     max-width: 60%;
 } */
 
+/* VALIDATE ERRORS */
+.input .error {
+    padding: 4px;
+    color: red;
+}

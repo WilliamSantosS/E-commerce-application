@@ -13,6 +13,6 @@ routes.get('/:id', ProductController.show)
 routes.get('/:id/edit', ProductController.edit)
 routes.post('/', multer.array("photos", 6), ProductController.post)
 routes.put('/', multer.array("photos", 6), ProductController.put)
-// routes.delete('/', productController.delete);
+routes.delete('/', ProductController.delete);
 
 module.exports = routes;

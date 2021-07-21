@@ -1,6 +1,6 @@
 <div class="item">
     <div>Name</div>
-    <div>
+    <div class="input">
         <input 
             type="text" 
             name="name"
@@ -12,19 +12,20 @@
 
 <div class="item">
     <div>E-mail</div>
-    <div >
+    <div class="input">
         <input 
             type="email" 
             name="email"
             placeholder="insert your e-mail" 
             value="{{ user.email }}"
+            onblur="Validate.apply(this, 'isValidEmail')"
         >
     </div>
 </div>
 
 <div class="item">
     <div>Password</div>
-    <div >
+    <div class="input">
         <input 
             type="password" 
             name="password"
@@ -37,7 +38,7 @@
 {% if not user.id %}
     <div class="item">
     <div>Confirm password</div>
-    <div >
+    <div class="input">
         <input 
             type="password" 
             name="passwordConfirm"
@@ -49,31 +50,37 @@
 
 <div class="item">
     <div>CPF/CNPJ</div>
-    <div>
+    <div class="input">
         <input 
             type="text" 
             name="cpf_cnpj"
             placeholder="insert your document" 
             value="{{ user.cpf_cnpj }}"
+            onkeydown="Mask.apply(this, 'cpfCnpj')"
+            maxlength="14"
+            onblur="Validate.apply(this, 'isValidCpfCnpj')"
         >
     </div>
 </div>
 
 <div class="item">
     <div>CEP</div>
-    <div >
+    <div class="input">
         <input 
             type="text" 
             name="cep"
             placeholder="Ex: 99999-999" 
             value="{{ user.cep }}"
-        >
+            onkeydown="Mask.apply(this, 'cepMask')"
+            maxlength="9"
+            onblur="Validate.apply(this, 'isValidCep')"
+        >   
     </div>
 </div>
 
 <div class="item">
     <div>Address</div>
-    <div >
+    <div class="input">
         <input 
             type="text" 
             name="address"

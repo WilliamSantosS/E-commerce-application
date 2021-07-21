@@ -11,6 +11,38 @@ const Mask = {
             style: 'currency',
             currency: 'BRL'
         }).format(value / 100)
+    },
+
+    cpfCnpj(value) {
+        value = value.replace(/\D/g, "")
+
+        if(value.length > 14) {
+            value = value.slice(0, -1)
+        }
+
+        if(value.length > 11) {
+            value = value.replace(/(\d{2})(\d)/, "$1.$2")
+            value = value.replace(/(\d{3})(\d)/, "$1/$2")
+            value = value.replace(/(\d{4})(\d)/, "$1-$2")
+
+        } else {
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            value = value.replace(/(\d{3})(\d)/, "$1-$2")
+
+        }
+
+        return value
+    },
+
+    cepMask(value) {
+        value = value.replace(/\D/g, "")
+        if(value.length > 8) {
+            value = value.slice(0, -1)
+        }
+
+        value = value.replace(/(\d{5})(\d)/, "$1-$2")
+        return value
     }
 }
 
@@ -150,5 +182,76 @@ const Lightbox = {
         Lightbox.target.style.top = "-100%"
         Lightbox.target.style.bottom = "initial"
         Lightbox.closeButton.style.top = "-80px"
+    }
+}
+
+const Validate = {
+    apply(input, func) {
+        Validate.ClearErrors(input)
+
+        let results = Validate[func](input.value)
+        input.value = results.value
+
+        if(results.error) 
+            Validate.DisplayError(input, results.error)
+        
+    },
+
+    DisplayError(input, error) {
+        const div = document.createElement('div')
+        div.classList.add('error')
+        div.innerHTML = error
+        input.parentNode.appendChild(div)
+    },
+
+    ClearErrors(input ) {
+        const errorDiv = input.parentNode.querySelector('.error')
+        if(errorDiv) {
+            errorDiv.remove()
+        }
+    },
+
+    isValidEmail(value) {
+        let error = null
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        
+        if(!value.match(mailFormat)) 
+            error = "Invalid Email"
+
+        return {
+            error,
+            value
+        }
+    },
+
+    isValidCpfCnpj(value) {
+        let error = null
+        const clearValues = value.replace(/\D/g, "")
+
+        if(clearValues.length > 11 && clearValues.length != 14 ){ 
+            error = "Invalid CNPJ"
+        }
+        else if (clearValues.length < 12 && clearValues.length != 11 ) {
+            error = "Invalid CPF"
+        }
+
+        return {
+            error,
+            value
+        }
+    },
+
+    isValidCep(value) {
+        let error  = null
+        const clearValues = value.replace(/\D/g, "")
+
+        if(clearValues.length !== 8 ){ 
+            error = "Invalid CEP"
+        }
+
+        return {
+            error, 
+            value 
+        }
     }
 }
