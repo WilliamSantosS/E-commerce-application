@@ -3,6 +3,7 @@ const routes = express.Router()
 
 const userController = require('../app/controllers/userController')
 const sessionController = require('../app/controllers/sessionController')
+const Validator = require('../app/middlewars/user')
 
 //login/logout 
 
@@ -20,9 +21,9 @@ const sessionController = require('../app/controllers/sessionController')
 // //User register userController
 
 routes.get('/register', userController.registerForm)
-// routes.post('/register', userController.post)
+routes.post('/register', Validator.post, userController.post)
 
-// routes.get('/', userController.show)
+routes.get('/', userController.show)
 // routes.put('/', userController.update)
 // routes.delete('/', userController.delete)
 

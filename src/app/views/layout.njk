@@ -8,14 +8,14 @@
     {% endblock %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"    
-      rel="stylesheet">
+    {% include "partials/styles.njk" %}
 </head>
 
 <body>
+
     {% include "partials/header.njk" %}
+    {% include "partials/messagens.njk" %}
 
     {% block content %} {%  endblock %}
     
