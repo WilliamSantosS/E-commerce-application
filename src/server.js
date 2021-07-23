@@ -3,10 +3,11 @@ const nunjucks = require('nunjucks')
 const express = require('express')
 const routes = require('./routes')
 const methodOverride = require('method-override')
-
+const session = require('./config/session')
 const server = express();
 
 //Midllewars
+server.use(session)
 //acessando a pasta que contem os arquivos staticos CSS
 server.use(express.urlencoded({ extended: true }))
 server.use(express.static('public'))

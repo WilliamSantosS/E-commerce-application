@@ -29,7 +29,11 @@
         <input 
             type="password" 
             name="password"
+            {% if not user.id %}
             placeholder="insert your password" 
+            {% else %}
+            placeholder="Insert your password to update your account"
+            {% endif %}
         >
     </div>
 </div>
