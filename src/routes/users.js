@@ -3,13 +3,15 @@ const routes = express.Router()
 
 const userController = require('../app/controllers/userController')
 const sessionController = require('../app/controllers/sessionController')
-const Validator = require('../app/middlewars/user')
+const UserValidator = require('../app/middlewars/user')
+const SessionValidator = require('../app/middlewars/session')
+
 
 //login/logout 
 
-// routes.get('/login', sessionController.loginForm)
-// routes.post('/login', sessionController.loginForm)
-// routes.post('/logout', sessionController.logout)
+routes.get('/login', sessionController.loginForm)
+routes.post('/login', SessionValidator.login, sessionController.login)
+routes.post('/logout', sessionController.logout)
 
 // //Reset password/ forgot
 
@@ -21,10 +23,10 @@ const Validator = require('../app/middlewars/user')
 // //User register userController
 
 routes.get('/register', userController.registerForm)
-routes.post('/register', Validator.post, userController.post)
+routes.post('/register', UserValidator.post, userController.post)
 
-routes.get('/', Validator.show ,userController.show)
-routes.put('/', Validator.update, userController.update)
+routes.get('/', UserValidator.show ,userController.show)
+routes.put('/', UserValidator.update, userController.update)
 // routes.delete('/', userController.delete)
 
 module.exports = routes

@@ -215,7 +215,7 @@ const Validate = {
         let error = null
         const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         
-        if(!value.match(mailFormat)) 
+        if(!value.match(mailFormat) && value.length != 0) 
             error = "Invalid Email"
 
         return {
@@ -228,12 +228,13 @@ const Validate = {
         let error = null
         const clearValues = value.replace(/\D/g, "")
 
-        if(clearValues.length > 11 && clearValues.length != 14 ){ 
-            error = "Invalid CNPJ"
-        }
-        else if (clearValues.length < 12 && clearValues.length != 11 ) {
-            error = "Invalid CPF"
-        }
+            if(clearValues.length > 11 && clearValues.length != 14 ){ 
+                error = "Invalid CNPJ"
+            }
+            else if (clearValues.length < 12 && clearValues.length != 11 ) {
+                error = "Invalid CPF"
+        
+    }
 
         return {
             error,
