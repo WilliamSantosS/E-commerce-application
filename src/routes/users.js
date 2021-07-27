@@ -5,11 +5,12 @@ const userController = require('../app/controllers/userController')
 const sessionController = require('../app/controllers/sessionController')
 const UserValidator = require('../app/middlewars/user')
 const SessionValidator = require('../app/middlewars/session')
+const { isLogged, onlyUsers } = require('../app/middlewars/routesAccess')
 
 
 //login/logout 
 
-routes.get('/login', sessionController.loginForm)
+routes.get('/login', isLogged, sessionController.loginForm)
 routes.post('/login', SessionValidator.login, sessionController.login)
 routes.post('/logout', sessionController.logout)
 
@@ -25,7 +26,7 @@ routes.post('/logout', sessionController.logout)
 routes.get('/register', userController.registerForm)
 routes.post('/register', UserValidator.post, userController.post)
 
-routes.get('/', UserValidator.show ,userController.show)
+routes.get('/', onlyUsers, UserValidator.show ,userController.show)
 routes.put('/', UserValidator.update, userController.update)
 // routes.delete('/', userController.delete)
 

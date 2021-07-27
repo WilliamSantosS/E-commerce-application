@@ -14,7 +14,6 @@ module.exports = {
 
     user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj)
     user.cep = formatCep(user.cep)
-    console.log("ENTREI AQUI")
     return res.render('user/index', { user })
   },
 

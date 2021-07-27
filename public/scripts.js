@@ -128,7 +128,6 @@ const PhotosUpload = {
     },
 
     removePhoto(event) {
-        console.log(event.target)
         const photoDiv = event.target.parentNode
         const photosArray = Array.from(PhotosUpload.preview.children)
         const index = photosArray.indexOf(photoDiv)
