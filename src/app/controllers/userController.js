@@ -53,6 +53,24 @@ module.exports = {
         error: "Something went wrong"
       })
     }
+  },
+
+  async delete(req, res) {
+    try { 
+      await User.delete(req.body.id)
+      req.session.destroy()
+
+      return res.render("session/login", {
+        success: "Account successfully deleted"
+      })
+
+    } catch (err) {
+      console.error(err) 
+      return res.redirect("users/index", {
+        user: req.body,
+        error: "Something went wrong, please try again"
+      })
+    }
   }
 }
 

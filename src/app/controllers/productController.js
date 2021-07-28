@@ -24,6 +24,7 @@ module.exports = {
             return res.send("Plese insert at least one image")
         }
 
+        req.body.user_id = req.session.userId
         let result = await Product.create(req.body);
         const productId = result.rows[0].id;
 
