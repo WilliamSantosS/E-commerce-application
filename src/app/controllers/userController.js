@@ -1,7 +1,8 @@
-const session = require('../../config/session')
+const { unlinkSync } = require('fs')
+const { hash } = require('bcryptjs')
 const User = require('../models/user')
+const Product = require('../models/product')
 const { formatCep, formatCpfCnpj } = require('../../lib/utils')
-const user = require('../models/user')
 
 module.exports = {
 
@@ -18,11 +19,30 @@ module.exports = {
   },
 
   async post(req, res) {
+    try {
+      let { name, email, password, cpf_cnpj, cep, address } = req.body
+      password = await hash(password, 8)
 
-    const userId = await User.create(req.body)
-    req.session.userId = userId
+      cpf_cnpj = cpf_cnpj.replace(/\D/g,"")
+      cep = cep.replace(/\D/g,"")
 
-    return res.redirect('/users')
+      const userId = await User.create({
+        name, 
+        email,
+        password,
+        cpf_cnpj,
+        cep,
+        address
+      })
+
+      req.session.userId = userId
+  
+      return res.redirect('/users')
+    } catch (error) {
+      console.error(error)
+    }
+
+   
 
   },
 
@@ -57,12 +77,31 @@ module.exports = {
 
   async delete(req, res) {
     try { 
-      await User.delete(req.body.id)
-      req.session.destroy()
+      const products = await Product.findAll({where: {user_id: req.body.id}})
 
-      return res.render("session/login", {
-        success: "Account successfully deleted"
-      })
+           //get all images
+            const allFilesPromise = products.map(product =>
+            Product.files(product.id))
+
+        let promiseResults = await Promise.all(allFilesPromise)
+
+    //     //remove the user
+              await User.delete(req.body.id)
+              req.session.destroy()
+
+        //remove the images of public folder
+        promiseResults.map(results => {
+            results.rows.map(file => {
+                try {
+                    fs.unlinkSync(file.path)
+                } catch (err) {
+                    console.error(err)
+                }
+            })   
+        })
+        return res.render("session/login", {
+          success: "Account deleted successfully!"
+        })
 
     } catch (err) {
       console.error(err) 

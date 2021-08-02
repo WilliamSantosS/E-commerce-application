@@ -6,9 +6,12 @@ const File = require('../models/file');
 
 module.exports = {
     async create(req, res) {
-        const result = await Category.all()
-        const categories = result.rows
-        return res.render("products/create.njk", { categories })
+        try {
+            const categories = await Category.findAll()
+            return res.render("products/create.njk", { categories })
+        } catch (error) {
+            console.error(error)
+        }
     }, 
 
     async post(req, res){
@@ -24,11 +27,22 @@ module.exports = {
             return res.send("Plese insert at least one image")
         }
 
-        req.body.user_id = req.session.userId
-        let result = await Product.create(req.body);
-        const productId = result.rows[0].id;
+        let { category_id, name, description, old_price, price, quantity, status } = req.body
 
-        const filesPromise = req.files.map(file => File.create({...file , product_id: productId}))
+        price = price.replace(/\D/g, "")
+
+        const product_id = await Product.create({
+            category_id,
+            user_id: req.session.userId, 
+            name,
+            description,
+            old_price: old_price || price,
+            price,
+            quantity,
+            status: status || 1
+        })
+
+        const filesPromise = req.files.map(file => File.create({...file , product_id}))
         
         await Promise.all(filesPromise)
          
@@ -36,8 +50,8 @@ module.exports = {
     },
 
    async show(req, res) { 
-        let results = await Product.find(req.params.id)   
-        const product = results.rows[0]
+       try {
+        const product = await Product.find(req.params.id)   
 
         if(!product) return res.send("Product not found!")
 
@@ -51,38 +65,42 @@ module.exports = {
        product.oldPrice = formatPrice(product.old_price)
        product.price = formatPrice(product.price)
 
-       results = await Product.files(product.id)
-        const files = results.rows.map(file => ({
+       let files = await Product.files(product.id)
+        files = files.map(file => ({
         ...file,
         src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
 
         return res.render('products/show', { product, files })
+       } catch (error) {
+           console.error(error)
+       }
     },
 
    async edit(req, res) {
-       let result = await Product.find(req.params.id)
-       const product = result.rows[0]
+       try {
+        const product = await Product.find(req.params.id)
 
-       if (!product) return res.send('Product not found')
-
-       product.old_price = formatPrice(product.old_price)
-       product.price = formatPrice(product.price)
-
-       //get categories
-        result = await Category.all()
-        const categories = result.rows
-
-        //get images
-        result = await Product.files(product.id)
-        let files = result.rows
-        files = files.map(file => ({
-            ...file,
-            src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-        }))
-
-
-        return res.render('products/edit.njk', { product, categories, files})
+        if (!product) return res.send('Product not found')
+ 
+        product.old_price = formatPrice(product.old_price)
+        product.price = formatPrice(product.price)
+ 
+        //get categories
+        const categories = await Category.findAll()
+ 
+         //get images
+         let files = await Product.files(product.id)
+         files = files.map(file => ({
+             ...file,
+             src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+         }))
+ 
+ 
+         return res.render('products/edit.njk', { product, categories, files})
+       } catch (error) {
+           console.error(error)
+       }
     },
 
     async put(req, res) {
@@ -115,7 +133,15 @@ module.exports = {
             req.body.old_price = oldProduct.rows[0].price
         }
 
-        await Product.update(req.body)
+        await Product.update(req.body.id,{
+            category_id: req.body.category_id,
+            name: req.body.name,
+            description: req.body.description,
+            old_price: req.body.old_price,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            status: req.body.status,
+        })
 
         return res.redirect(`/products/${req.body.id}`)
     },
