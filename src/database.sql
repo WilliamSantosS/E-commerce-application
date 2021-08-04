@@ -1,3 +1,7 @@
+CREATE DATABASE IF EXISTS ecommerce;
+CREATE DATABASE ecommerce;
+
+
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
   "category_id" int NOT NULL,
@@ -47,11 +51,11 @@ INSERT INTO categories(name) VALUES ('Automotive');
 
 
 -- foreign key 
-ALTER TABLE "products" ADD FOREIGN KEY ('user_id') REFERENCES "users" ("id");
+ALTER TABLE "products" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 -- create procedure
 CREATE FUNCTION trigger_set_timestamp()
-RETURN TRIGGER AS $$
+RETURNS TRIGGER AS $$
 BEGIN
  NEW.updated_at = NOW();
  RETURN NEW; 
@@ -99,6 +103,17 @@ ON DELETE CASCADE;
 ALTER TABLE "files"
 DROP CONSTRAINT files_products_id_fkey,
 ADD CONSTRAINT files_product_id_fkey
-FOREIGN KEY ("product_id")
+FOREIGN KEY ("products_id")
 REFERENCES "products" ("id")
 ON DELETE CASCADE;
+
+--OPTIONAL DELETING TABLES AND RESTARTING THE SEQUENCE
+
+DELETE FROM products;
+DELETE FROM users;
+DELETE FROM files;
+
+-- Restart the sequence
+ALTER SEQUENCE products_id_seq RESTART WITH 1;
+ALTER SEQUENCE users_id_seq RESTART WITH 1;
+ALTER SEQUENCE files_id_seq RESTART WITH 1;
