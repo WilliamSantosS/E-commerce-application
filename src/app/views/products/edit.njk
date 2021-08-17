@@ -12,7 +12,7 @@
             <button class="button edit" type="submit">Update</button>
         </form>
 
-        <form id="form-delete" action="/products?_method=DELETE" method="post">
+        <form method="POST" id="form-delete" action="/products?_method=DELETE" >
             <input type="hidden" name="id" value="{{product.id}}">
             <button class="button delete" type="submit">Delete</button>
         </form>

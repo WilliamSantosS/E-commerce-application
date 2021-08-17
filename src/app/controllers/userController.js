@@ -90,10 +90,10 @@ module.exports = {
               req.session.destroy()
 
         //remove the images of public folder
-        promiseResults.map(results => {
-            results.rows.map(file => {
+        promiseResults.map(files => {
+          files.map(file => {
                 try {
-                    fs.unlinkSync(file.path)
+                    unlinkSync(file.path)
                 } catch (err) {
                     console.error(err)
                 }

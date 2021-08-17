@@ -1,6 +1,6 @@
 const db = require('../../config/db')
 
-function find(fields, table) {
+function find(filters, table) {
     let query = `SELECT * FROM ${table}`
 
     if(filters) {

@@ -14,6 +14,6 @@ routes.get('/:id', ProductController.show)
 routes.get('/:id/edit', ProductController.edit)
 routes.post('/', onlyUsers, multer.array("photos", 6), ProductController.post)
 routes.put('/', onlyUsers,  multer.array("photos", 6), ProductController.put)
-routes.delete('/:id', onlyUsers, ProductController.delete);
+routes.delete('/', onlyUsers, ProductController.delete);
 
 module.exports = routes;
