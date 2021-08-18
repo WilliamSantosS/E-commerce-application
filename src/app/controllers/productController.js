@@ -82,14 +82,7 @@ module.exports = {
     },
 
     async put(req, res) {
-        const keys = Object.keys(req.body)
-
-        for (key in keys) {
-            if (req.body[key] == "" && key != removed_files) {
-                return res.send("Please fill all the fields")
-            }
-        }
-
+        
         if (req.files.length != 0) {
             const newFilesPromise = req.files.map(file => File.create({ ...file, product_id: req.body.id }))
             await Promise.all(newFilesPromise)
