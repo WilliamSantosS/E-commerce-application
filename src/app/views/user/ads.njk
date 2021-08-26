@@ -1,0 +1,22 @@
+{% extends "layout.njk" %}
+{% import 'partials/card.njk' as cards %}
+{% block content %}
+    {% call cards.render("My advertisements", 'user-ads container') %}
+    <div class="items">
+        {% for product in products %}
+            <div class="item">
+                <div class="image" style="background-image: url( {{ product.img }} )"></div>
+                <div class="info">
+                    <div class="title">{{ product.name }}</div>
+                    <div class="price">{{ product.formattedPrice }}</div>
+                    <div class="published">Published in {{ product.formattedCreatedAt }}</div>
+                    <div class="actions">
+                        <a href="/products/{{ product.id }}/edit">Edit</a>
+                        <a href="/products/{{ product.id }}">Show</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endcall %}
+{% endblock content %}

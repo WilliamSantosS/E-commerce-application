@@ -3,6 +3,7 @@ const { hash } = require('bcryptjs')
 const User = require('../models/user')
 const Product = require('../models/product')
 const { formatCep, formatCpfCnpj } = require('../../lib/utils')
+const LoadService = require('../services/loadProductService')
 
 module.exports = {
 
@@ -110,6 +111,14 @@ module.exports = {
         error: "Something went wrong, please try again"
       })
     }
+  },
+
+  async ads(req, res) {
+    const products = await LoadService.load('products', {
+      where: { user_id: req.session.userId }
+    })
+
+    return res.render("user/ads", { products })
   }
 }
 

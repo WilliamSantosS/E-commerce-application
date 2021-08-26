@@ -1,30 +1,28 @@
-{% extends "layout.njk"%}
+{% extends "layout.njk" %}
+{% import "partials/card.njk" as card %}
 {% block content %}
-    <section class="container form">
-        <form method="POST" action="/products?_method=PUT" enctype="multipart/form-data"> 
-            <div class="header">
-                <h3>Edit product {{productId}}</h3>
-            </div>
-            <div class="fields">
-                {% include "products/fields.njk" %}
-                <input type="hidden" name="id" value={{product.id}}> 
-            </div>
+    {% call card.render("Edit product ?", 'product-create container') %}
+    <form method="POST" action="/products?_method=PUT" enctype="multipart/form-data">
+        <div class="header">
+            <h3>Edit product {{ productId }}</h3>
+        </div>
+        <div class="fields">
+            {% include "products/fields.njk" %}
+            <input type="hidden" name="id" value={{ product.id }}></div>
             <button class="button edit" type="submit">Update</button>
         </form>
-
-        <form method="POST" id="form-delete" action="/products?_method=DELETE" >
-            <input type="hidden" name="id" value="{{product.id}}">
-            <button class="button delete" type="submit">Delete</button>
-        </form>
-    </section>
-
-    <script>
-        const formDelete = document.querySelector('#form-delete')
-        formDelete.addEventListener('submit', function(event){
-            const confirmation = confirm("You want to delete?")
-            if(!confirmation) {
-            event.preventDefault()
-            }
-        })
-    </script>
-{% endblock content%}
+        <form method="POST" id="form-delete" action="/products?_method=DELETE">
+            <input type="hidden" name="id" value="{{ product.id }}">
+                <button class="button delete" type="submit">Delete</button>
+            </form>
+            {% endcall %}
+            <script>
+                const formDelete = document.querySelector('#form-delete')
+                formDelete.addEventListener('submit', function (event) {
+                    const confirmation = confirm("You want to delete?")
+                    if (! confirmation) {
+                        event.preventDefault()
+                    }
+                })
+            </script>
+        {% endblock content %}
