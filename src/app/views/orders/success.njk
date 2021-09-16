@@ -1,0 +1,23 @@
+{% extends "layout.njk" %}
+{% import 'partials/card.njk' as cards %}
+{% block content %}
+    {% call cards.render("", 'order-sucess container') %}
+    <div class="success-lottie"></div>
+    <h2>Order sucessfully done</h2>
+    <p>
+        Wait the seller response in your e-mail
+    </p>
+    <a href="/products/search">Buy more</a>
+    {% endcall %}
+    <script src="/lottie.min.js"></script>
+    <script>
+        const element = document.querySelector('.success-lottie')
+        lottie.loadAnimation({
+            container: element,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '/success.json'
+        });
+    </script>
+{% endblock content %}

@@ -1,11 +1,9 @@
 {% extends "layout.njk" %}
 {% import "partials/card.njk" as card %}
 {% block content %}
-    {% call card.render("Edit product ?", 'product-create container') %}
+    {% call card.render("Edit product", 'product-create container') %}
     <form method="POST" action="/products?_method=PUT" enctype="multipart/form-data">
-        <div class="header">
-            <h3>Edit product {{ productId }}</h3>
-        </div>
+        <div class="header"></div>
         <div class="fields">
             {% include "products/fields.njk" %}
             <input type="hidden" name="id" value={{ product.id }}></div>
