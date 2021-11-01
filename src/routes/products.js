@@ -1,9 +1,9 @@
 const express = require('express');
 const routes = express.Router();
 const multer = require('../app/middlewars/multer');
-const ProductController = require('../app/controllers/productController');
-const SearchController = require('../app/controllers/searchController');
-const { onlyUsers } = require('../app/middlewars/routesAccess');
+const ProductController = require('../app/controllers/ProductController');
+const SearchController = require('../app/controllers/SearchController');
+const { onlyUsers } = require('../app/middlewars/RoutesAccess');
 
 const Validator = require('../app/validators/product');
 

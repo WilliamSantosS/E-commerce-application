@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const LoadProductService = require('../services/loadProductService');
+const LoadProductService = require('../services/LoadProductService');
 
 
 module.exports = {

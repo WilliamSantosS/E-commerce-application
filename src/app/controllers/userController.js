@@ -3,7 +3,7 @@ const { hash } = require('bcryptjs')
 const User = require('../models/user')
 const Product = require('../models/product')
 const { formatCep, formatCpfCnpj } = require('../../lib/utils')
-const LoadService = require('../services/loadProductService')
+const LoadService = require('../services/LoadProductService')
 
 module.exports = {
 

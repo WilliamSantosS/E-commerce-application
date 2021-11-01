@@ -40,6 +40,14 @@
                             </ul>
                         {% endif %}
                     </li>
+                    <li class="cart">
+                        <a href="/cart">
+                            <i class="material-icons">shopping_cart</i>
+                            {% if (session.cart) and (session.cart.total.quantity > 0) %}
+                            <span id="cart-satus-info">{{session.cart.total.quantity}}</span>
+                            {% endif %}
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

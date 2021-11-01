@@ -1,4 +1,4 @@
-const LoadProductService = require('../services/loadProductService');
+const LoadProductService = require('../services/LoadProductService');
 const User = require('../models/user');
 const mailer = require('../../lib/mailer');
 

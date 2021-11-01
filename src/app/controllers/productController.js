@@ -2,7 +2,7 @@ const { unlinkSync } = require('fs')
 const Category = require('../models/category');
 const Product = require('../models/product');
 const File = require('../models/file');
-const LoadProductService = require('../services/loadProductService');
+const LoadProductService = require('../services/LoadProductService');
 
 
 module.exports = {
