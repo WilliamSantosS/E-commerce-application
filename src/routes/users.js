@@ -2,12 +2,10 @@ const express = require('express')
 const routes = express.Router()
 
 const UserController = require('../app/controllers/UserController')
-const OrderController = require('../app/controllers/OrderController')
 const SessionController = require('../app/controllers/SessionController')
 const UserValidator = require('../app/middlewars/user')
 const SessionValidator = require('../app/middlewars/session')
 const { isLogged, onlyUsers } = require('../app/middlewars/RoutesAccess')
-
 
 //login/logout 
 
@@ -32,6 +30,5 @@ routes.put('/', UserValidator.update, UserController.update)
 routes.delete('/', UserController.delete)
 
 routes.get('/ads', UserController.ads)
-routes.post('/order', onlyUsers, OrderController.post)
 
 module.exports = routes

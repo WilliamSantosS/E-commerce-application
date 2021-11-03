@@ -1,0 +1,60 @@
+{% extends "layout.njk" %}
+{% import "partials/card.njk" as card %}
+{% block content %}
+    {% if (sales.length < 1) %}
+        {% call card.render("", 'cart-empty container') %}
+        <p>No Sales</p>
+        <a href="/ads/create" class="button">Start selling</a>
+        {% endcall %}
+    {% else %}
+        {% call card.render('My Sales', 'card sales orders container') %}
+        <div class="items">
+            {% for sale in sales %}
+                <div class="item-container">
+                    <div class="item">
+                        <img src="{{ sale.product.img }}" alt="Product image {{ sale.product.name }}">
+                        <div>
+                            <div class="title">{{ sale.product.name }}</div>
+                            <div class="price">{{ sale.formattedPrice }}</div>
+                            <div class="updated-at">{{ sale.formattedUpdatedAt }}</div>
+                        </div>
+                    </div>
+
+                    <div class="quantity">
+                        Quantity: {{ sale.quantity }}
+                    </div>
+
+                    <div class="total">
+                        {{ sale.formattedTotal }}
+                    </div>
+
+                    <div class="status {{ sale.status }}">
+                        {{ sale.formattedStatus }}
+                    </div>
+
+                    <div class="actions dropdown-container">
+                         Actions <i class="material-icons">arrow_drop_down</i>
+                        <ul class="dropdown">
+                            <li><a href="/orders/{{sale.id}}">See Order</a></li>
+                            <li><a href="/products/{{sale.product.id}}/edit">Edit Product</a></li>
+                            {% if sale.status == 'open' %}
+                            <li>
+                                <form action="/orders/{{sale.id}}/close" method="POST">
+                                    <button>Set sold</button>
+                                </form>
+                            </li>
+
+                            <li>
+                                <form action="/orders/{{sale.id}}/canceled" method="POST">
+                                    <button>Set Canceled</button>
+                                </form>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endcall %}
+    {% endif %}
+{% endblock content %}

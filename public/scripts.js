@@ -254,18 +254,18 @@ const Validate = {
             value 
         }
     },
-    allFields(e) {
-        const items = document.querySelectorAll('.item input, .item select, .item textarea')
+    // allFields(e) {
+    //     const items = document.querySelectorAll('.item input, .item select, .item textarea')
 
-        for(item of items) {
-            const message = document.createElement('div')
-            message.classList.add('messages')
-            message.classList.add('error')
-            message.style.position = 'fixed'
-            message.innerHTML = 'All fields are required'
-            document.querySelector('body').append(message)
+    //     for(item of items) {
+    //         const message = document.createElement('div')
+    //         message.classList.add('messages')
+    //         message.classList.add('error')
+    //         message.style.position = 'fixed'
+    //         message.innerHTML = 'All fields are required'
+    //         document.querySelector('body').append(message)
 
-            e.preventDefault()
-        }
-    }
+    //         e.preventDefault()
+    //     }
+    // }
 }

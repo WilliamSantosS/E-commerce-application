@@ -5,7 +5,7 @@
     <div class="items">
         {% for product in products %}
             <div class="item">
-                <div class="image" style="background-image: url( {{ product.img }} )"></div>
+                <div class="image" style="background-image: url({{product.img}})"></div>
                 <div class="info">
                     <div class="title">{{ product.name }}</div>
                     <div class="price">{{ product.formattedPrice }}</div>

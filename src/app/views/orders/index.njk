@@ -1,0 +1,47 @@
+{% extends "layout.njk" %}
+{% import "partials/card.njk" as card %}
+{% block content %}
+    {% if (orders.length < 1) %}
+        {% call card.render("", 'cart-empty container') %}
+        <p>No application</p>
+        <a href="/products/search" class="button">Buy now</a>
+        {% endcall %}
+    {% else %}
+        {% call card.render('My Orders', 'orders container') %}
+        <div class="items">
+            {% for order in orders %}
+                <div class="item-container">
+                    <div class="item">
+                        <img src="{{ order.product.img }}" alt="Product image {{ order.product.name }}">
+                        <div>
+                            <div class="title">{{ order.product.name }}</div>
+                            <div class="price">{{ order.formattedPrice }}</div>
+                            <div class="updated-at">{{ order.formattedUpdatedAt }}</div>
+                        </div>
+                    </div>
+
+                    <div class="quantity">
+                        Quantity: {{ order.quantity }}
+                    </div>
+
+                    <div class="total">
+                        {{ order.formattedTotal }}
+                    </div>
+
+                    <div class="status {{ order.status }}">
+                        {{ order.formattedStatus }}
+                    </div>
+
+                    
+                    <div class="actions dropdown-container">
+                         Actions <i class="material-icons">arrow_drop_down</i>
+                        <ul class="dropdown">
+                            <li><a href="/orders/{{order.id}}">See Order</a></li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endcall %}
+    {% endif %}
+{% endblock content %}

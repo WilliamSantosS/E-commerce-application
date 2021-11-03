@@ -6,10 +6,9 @@
             <p>Your cart is empty</p>
             <a href="/products/search" class="button">Buy now</a>
         {% endcall %}
-
-
-{% else %}
-    {% call card.render("Cart", 'cart container') %}
+    {% else %}
+    
+    {% call card.render("Cart", 'cart container') %} 
     <div class="header">
         <p>Product</p>
         <p>Price</p>

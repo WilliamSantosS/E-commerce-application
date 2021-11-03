@@ -117,3 +117,45 @@ DELETE FROM files;
 ALTER SEQUENCE products_id_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE files_id_seq RESTART WITH 1;
+
+-- Create orders
+
+CREATE TABLE "orders" (
+  "id" SERIAL PRIMARY KEY,
+  "seller_id" int NOT NULL,	
+  "buyer_id" int NOT NULL,
+  "product_id" int NOT NULL,
+  "price" int NOT NULL,
+  "quantity" int DEFAULT 0,
+  "total" int NOT NULL,
+  "status" text NOT NULL,
+  "created_at" timestamp DEFAULT (now()),
+  "updated_at" timestamp DEFAULT (now())
+);
+
+ALTER TABLE "orders" ADD FOREIGN KEY ("seller_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("buyer_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON orders
+FOR EACH ROW 
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+--SOFT DELETE
+-- Create a column in the table products called "deleted_at"
+ALTER TABLE products ADD COLUMN "deleted_at" timestamp;
+
+--Create a rule to run when delete method is called
+CREATE OR REPLACE RULE delete_product AS
+ON DELETE TO products DO INSTEAD 
+UPDATE products 
+SET deleted_at = now()
+WHERE products.id = old.id;
+--Create a view where only the active products will be listed
+CREATE VIEW products_without_deleted AS
+SELECT * FROM products WHERE deleted_at IS NULL;
+
+--Rename the View and our Table
+ALTER TABLE products RENAME TO product_with_deleted;
+ALTER VIEW products_without_deleted RENAME TO products;

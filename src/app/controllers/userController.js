@@ -117,7 +117,6 @@ module.exports = {
     const products = await LoadService.load('products', {
       where: { user_id: req.session.userId }
     })
-
     return res.render("user/ads", { products })
   }
 }

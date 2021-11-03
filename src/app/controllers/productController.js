@@ -118,9 +118,7 @@ module.exports = {
     },
 
     async delete(req, res) {
-        console.log(req.body.id)
         const files = await Product.files(req.body.id)
-        console.log(files)
         await Product.delete(req.body.id)
 
         files.map(file => {

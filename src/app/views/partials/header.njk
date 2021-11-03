@@ -16,22 +16,29 @@
                             New AD
                         </a>
                     </li>
-                    <li class="accounts">
+                    <li class="dropdown-container">
                         <a href="/account">
                             <i class="material-icons">account_circle</i>
                             My account
                         </a>
                         {% if session.userId %}
-                            <ul class="submenu">
+                            <ul class="dropdown">
                                 <li>
                                     <a href="/users">Configs</a>
                                 </li>
-                                <li>
-                                    <a href="/users">Purchase</a>
-                                </li>
+                               
                                 <li>
                                     <a href="/users/ads">My advertisements</a>
                                 </li>
+
+                                <li>
+                                    <a href="/orders">My Orders</a>
+                                </li>
+
+                                <li>
+                                    <a href="/orders/sales">My Sales</a>
+                                </li>
+
                                 <li>
                                     <form action="/users/logout" method="POST">
                                         <button>Exit</button>
